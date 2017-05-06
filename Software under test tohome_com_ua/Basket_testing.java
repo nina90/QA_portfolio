@@ -33,6 +33,9 @@ public class Basket_testing {
 	static ExtentTest logger;
 	static WebDriver driver;
 	static String arg0;
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
 
 	@BeforeClass
 	public static void SetUp()
@@ -197,19 +200,28 @@ public class Basket_testing {
 
 		try
 		{
+			// check statement
 			assertTrue(compRez);
+			
+			// log if pass
 			sPath = Utility.captureScreenshot(driver, "Test3_CheckingProccedToCheckout_screenshot2");
 			iName = logger.addScreenCapture(sPath);
 			logger.log(LogStatus.INFO, "Expected Total: " + ExpectedTotal + " Actual Total: " + actualTotal);
 			logger.log(LogStatus.PASS, "Total calculation is right",iName);
+			
 		}
 		catch (AssertionError e)
 		{
-
+			// log error
 			sPath = Utility.captureScreenshot(driver, "Test3_CheckingProccedToCheckout_screenshot2");
 			iName = logger.addScreenCapture(sPath);
 			logger.log(LogStatus.INFO, "Expected Total: " + ExpectedTotal + " Actual Total: " + actualTotal);
 			logger.log(LogStatus.ERROR, "Total calculation is wrong",iName);
+			
+			// throw error for JUnit
+		    thrown.expect(AssertionError.class);
+		    thrown.expectMessage("Total is wrong");
+		   
 		}
 
 	}
