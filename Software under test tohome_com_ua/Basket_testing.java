@@ -195,12 +195,22 @@ public class Basket_testing {
 
 		boolean compRez = ExpectedTotal == actualTotal;
 
-		assertFalse(compRez);
+		try
+		{
+			assertTrue(compRez);
+			sPath = Utility.captureScreenshot(driver, "Test3_CheckingProccedToCheckout_screenshot2");
+			iName = logger.addScreenCapture(sPath);
+			logger.log(LogStatus.INFO, "Expected Total: " + ExpectedTotal + " Actual Total: " + actualTotal);
+			logger.log(LogStatus.PASS, "Total calculation is right",iName);
+		}
+		catch (AssertionError e)
+		{
 
-		sPath = Utility.captureScreenshot(driver, "Test3_CheckingProccedToCheckout_screenshot2");
-		iName = logger.addScreenCapture(sPath);
-		logger.log(LogStatus.INFO, "Expected Total: " + ExpectedTotal + " Actual Total: " + actualTotal);
-		logger.log(LogStatus.ERROR, "Total calculation is wrong",iName);
+			sPath = Utility.captureScreenshot(driver, "Test3_CheckingProccedToCheckout_screenshot2");
+			iName = logger.addScreenCapture(sPath);
+			logger.log(LogStatus.INFO, "Expected Total: " + ExpectedTotal + " Actual Total: " + actualTotal);
+			logger.log(LogStatus.ERROR, "Total calculation is wrong",iName);
+		}
 
 	}
 
